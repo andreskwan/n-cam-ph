@@ -5,11 +5,16 @@ var io = require('socket.io')(http);
 var fs = require('fs');
 var path = require('path');
 
+var SerialPort = require('serialport').SerialPort;
+var sp = new SerialPort('/dev/tty.usbmodem14211', {
+    baudrate: 9600
+    // parser: sp.parsers.readline('\r')
+}); 
+
 var spawn = require('child_process').spawn;
 var proc;
 
 app.use('/', express.static(path.join(__dirname, 'stream')));
-
 
 app.get('/', function(req, res) {
     res.sendFile(__dirname + '/index.html');
@@ -37,12 +42,41 @@ io.on('connection', function(socket) {
     startStreaming(io);
   });
 
+  socket.on('start-door', function() {
+    startDoor();
+  });
+
+  socket.on('stop-door', function() {
+    // startStreaming(io);
+    stopDoor();
+  });
 });
 
 http.listen(3000, function() {
   console.log('listening on *:3000');
 });
 
+//serialPort function
+function startDoor() {
+  sp.write('2', function (err, results) {
+    if(err){
+      console.log('Serial Port Write error: \n' + err);
+      return;
+    }
+    console.log('results ' + results);
+  });   
+}
+function stopDoor() {
+  sp.write('3', function (err, results) {
+    if(err){
+      console.log('Serial Port Write error: \n' + err);
+      return;
+    }
+    console.log('results ' + results);
+  });   
+}
+
+//socketIO functions
 function stopStreaming() {
   if (Object.keys(sockets).length == 0) {
     app.set('watchingFile', false);

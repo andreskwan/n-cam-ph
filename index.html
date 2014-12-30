@@ -28,12 +28,20 @@
   var socket = io();
   socket.on('liveStream', function(url) {
     $('#stream').attr('src', url);
-    $('.start').hide();
+    // $('.start').hide();
   });
 
   function startStream() {
     socket.emit('start-stream');
-    $('.start').hide();
+    // $('.start').hide();
+  }
+  function startDoor() {
+    socket.emit('start-door');
+    // $('.start').hide();
+  }
+  function stopDoor() {
+    socket.emit('stop-door');
+    // $('.start').hide();
   }
   </script>
 </head>
@@ -46,6 +54,8 @@
   <hr>
 
   <button type="button" id="" class="btn btn-info start" onclick="startStream()">Start Camera</button>
+  <button type="button" id="" class="btn btn-info start" onclick="startDoor()">Start Door</button>
+  <button type="button" id="" class="btn btn-info start" onclick="stopDoor()">Stop Door</button>
 
   <div class="row">
     <img src="" id="stream">
