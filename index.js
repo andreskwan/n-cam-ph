@@ -1,15 +1,20 @@
-var express = require('express');
-var app = express();
-var http = require('http').Server(app);
-var io = require('socket.io')(http);
-var fs = require('fs');
-var path = require('path');
+var express  = require('express');
+var app      = express();
+var http     = require('http').Server(app);
+var io       = require('socket.io')(http);
+var fs       = require('fs');
+var path     = require('path');
+var sendData = "";
 
-var SerialPort = require('serialport').SerialPort;
+var serialport = require("serialport");
+var SerialPort = serialport.SerialPort; // localize object constructor
+
 var sp = new SerialPort('/dev/ttyACM0', {
 //var sp = new SerialPort('/dev/tty.usbmodem14211', {
-    baudrate: 9600
-    // parser: sp.parsers.readline('\r')
+//sp.parsers.readline('\r')
+//serialport.parsers.raw
+    baudrate: 9600,
+    parser: serialport.parsers.readline('\n')
 }); 
 
 var spawn = require('child_process').spawn;
@@ -58,7 +63,14 @@ http.listen(3000, function() {
 });
 
 sp.on("data", function (data) {
-    console.log('data from serial port', data.toString());
+    var receivedData = data.toString();
+    if (receivedData.indexOf('E') >= 0 && receivedData.indexOf('B') >= 0)
+    {
+      // save the data between 'B' and 'E'
+       sendData = receivedData .substring(receivedData .indexOf('B') + 1, receivedData .indexOf('E'));
+       receivedData = '';
+    }
+    console.log('data from serial port: ', receivedData);
 });  
 
 //serialPort function
@@ -68,7 +80,7 @@ function startDoor() {
       console.log('Serial Port Write error: \n' + err);
       return;
     }
-    console.log('results ' + results);
+    console.log('results startDoor: ' + results);
   });   
 }
 
@@ -78,7 +90,7 @@ function stopDoor(io) {
       console.log('Serial Port Write error: \n' + err);
       return;
     }
-    console.log('results ' + results);
+    console.log('results stopDoor: ' + results);
   });   
   // io.sockets.emit('doorState', sp.)
 }
