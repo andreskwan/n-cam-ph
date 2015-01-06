@@ -1,1 +1,3 @@
 node_modules
+arduino/.build
+arduino/lib
