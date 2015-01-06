@@ -6,7 +6,8 @@ var fs = require('fs');
 var path = require('path');
 
 var SerialPort = require('serialport').SerialPort;
-var sp = new SerialPort('/dev/tty.usbmodem14211', {
+var sp = new SerialPort('/dev/ttyACM0', {
+//var sp = new SerialPort('/dev/tty.usbmodem14211', {
     baudrate: 9600
     // parser: sp.parsers.readline('\r')
 }); 
@@ -56,8 +57,8 @@ http.listen(3000, function() {
   console.log('listening on *:3000');
 });
 
-serialPort.on("data", function (data) {
-  console.log('data from serial port',data);
+sp.on("data", function (data) {
+    console.log('data from serial port', data.toString());
 });  
 
 //serialPort function
