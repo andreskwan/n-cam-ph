@@ -63,7 +63,7 @@ sp.on("data", function (data) {
 
 //serialPort function
 function startDoor() {
-  sp.write('2', function (err, results) {
+  sp.write('2'+'E', function (err, results) {
     if(err){
       console.log('Serial Port Write error: \n' + err);
       return;
@@ -73,7 +73,7 @@ function startDoor() {
 }
 
 function stopDoor(io) {
-  sp.write('3', function (err, results) {
+  sp.write('3'+'P', function (err, results) {
     if(err){
       console.log('Serial Port Write error: \n' + err);
       return;
