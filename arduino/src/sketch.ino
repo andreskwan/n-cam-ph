@@ -3,8 +3,9 @@
 #define M2O 5
 #define M2C 4
 
-int    blinkRate      = 0;     // blink rate stored in this variable
-String toggleComplete = false;
+int      orderValue      = 0;     // blink rate stored in this variable
+boolean  toggleComplete  = false;
+char     inputChar       ;         // a string to hold incoming data
 
 void setup()
 {
@@ -26,18 +27,18 @@ void loop()
      toggleComplete = true;
     }
     if(inChar == 'P'){// end character for dim LED
-      pwmComplete = true;
+    //      toggle = true;
     }
     else{
-      inputString += inChar; 
+      inputChar += inChar; 
     }
   }
 
   if (!Serial.available() && toggleComplete == true ) // Check to see if at least one character is available
   {
     // char ch = Serial.read();
-    if(isDigit(inputString)) {
-      orderValue = (inputString - '0');      // ASCII value converted to numeric value
+    if(isDigit(inputChar)) {
+      orderValue = (inputChar - '0');      // ASCII value converted to numeric value
       switch ( orderValue ) // is this an ascii digit between 0 and 9?
     	{
     	/* case 0: */
