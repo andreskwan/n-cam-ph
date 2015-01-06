@@ -56,6 +56,10 @@ http.listen(3000, function() {
   console.log('listening on *:3000');
 });
 
+serialPort.on("data", function (data) {
+  console.log('data from serial port',data);
+});  
+
 //serialPort function
 function startDoor() {
   sp.write('2', function (err, results) {
@@ -66,7 +70,8 @@ function startDoor() {
     console.log('results ' + results);
   });   
 }
-function stopDoor() {
+
+function stopDoor(io) {
   sp.write('3', function (err, results) {
     if(err){
       console.log('Serial Port Write error: \n' + err);
@@ -74,6 +79,7 @@ function stopDoor() {
     }
     console.log('results ' + results);
   });   
+  // io.sockets.emit('doorState', sp.)
 }
 
 //socketIO functions
@@ -86,7 +92,6 @@ function stopStreaming() {
 }
 
 function startStreaming(io) {
-
   if (app.get('watchingFile')) {
     io.sockets.emit('liveStream', 'image_stream.jpg?_t=' + (Math.random() * 100000));
     return;
@@ -102,5 +107,4 @@ function startStreaming(io) {
   fs.watchFile('stream/image_stream.jpg', function(current, previous) {
     io.sockets.emit('liveStream', 'image_stream.jpg?_t=' + (Math.random() * 100000));
   })
-
 }

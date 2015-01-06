@@ -31,6 +31,11 @@
     // $('.start').hide();
   });
 
+  socket.on('spState', function(url) {
+    $('#spState').attr('src', url);
+    // $('.start').hide();
+  });
+
   function startStream() {
     socket.emit('start-stream');
     // $('.start').hide();
@@ -59,6 +64,7 @@
 
   <div class="row">
     <img src="" id="stream">
+    <img src="" id="spState">
   </div>
 
 </body>
