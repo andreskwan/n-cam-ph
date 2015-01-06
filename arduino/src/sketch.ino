@@ -47,18 +47,26 @@ void loop()
     	/*   break;	 */
     	case 2:
     	  openDoor();
-    	  Serial.println("opening doors");
+        Serial.print("B"); // begin character 
+    	  Serial.print("opening doors");
+        Serial.print("E"); // end character
     	  break;
     	case 3:
     	  closeDoor();
-    	  Serial.println("closing doors");
+        Serial.print("B"); // begin character 
+    	  Serial.print("closing doors");
+        Serial.print("E"); // end character
     	  break;
     	default:
-    	  Serial.println("Not valid command " + orderValue);
+        Serial.print("B"); // begin character 
+    	  Serial.print("Not valid command " + orderValue);
+        Serial.print("E"); // end character
     	}
     }
   }else{
-    Serial.println("no serial data available");
+    Serial.print("B"); // begin character 
+    Serial.print("no serial data available");
+    Serial.print("E"); // end character
   }
     delay(500);
     /* digitalWrite(M1C, LOW); */
