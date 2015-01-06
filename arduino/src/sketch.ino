@@ -47,34 +47,34 @@ void loop()
     	/*   break;	 */
     	case 2:
     	  openDoor();
-        Serial.print("B"); // begin character 
-    	  Serial.print("opening doors");
-        Serial.print("E"); // end character
+          Serial.println("B"); // begin character 
+    	  Serial.println("opening doors");
+          Serial.println("E"); // end character
     	  break;
     	case 3:
     	  closeDoor();
-        Serial.print("B"); // begin character 
-    	  Serial.print("closing doors");
-        Serial.print("E"); // end character
+          Serial.println("B"); // begin character 
+    	  Serial.println("closing doors");
+          Serial.println("E"); // end character
     	  break;
     	default:
-        Serial.print("B"); // begin character 
-    	  Serial.print("Not valid command " + orderValue);
-        Serial.print("E"); // end character
+          Serial.println("B"); // begin character 
+    	  Serial.println("Not valid command " + orderValue);
+          Serial.println("E"); // end character
     	}
     }
   }else{
-    Serial.print("B"); // begin character 
-    Serial.print("no serial data available");
-    Serial.print("E"); // end character
+//    Serial.println("B"); // begin character 
+    Serial.print("Kwan - no serial data available");
+//    Serial.println("E"); // end character
   }
     delay(500);
     /* digitalWrite(M1C, LOW); */
     /* delay(100); */
 
-    /* //Serial.println(millis()); */
+    /* //Serial.printlnln(millis()); */
     // delay(1000); 
-    // Serial.println("no serial data available");
+    // Serial.printlnln("no serial data available");
 }
 
 void openDoor()
