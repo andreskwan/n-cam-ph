@@ -3,86 +3,58 @@
 #define M2O 5
 #define M2C 4
 
-int      orderValue      = 0;     // blink rate stored in this variable
-boolean  toggleComplete  = false;
-char     inputChar       ;         // a string to hold incoming data
+int   blinkRate = 0;     // blink rate stored in this variable
 
 void setup()
 {
-    pinMode(M1C, OUTPUT);
-    pinMode(M2C, OUTPUT);
-    pinMode(M1O, OUTPUT);
-    pinMode(M2O, OUTPUT);
-    //Leonardo
-    Serial.begin(9600);
-    while(!Serial);
+  pinMode(M1C, OUTPUT);
+  pinMode(M2C, OUTPUT);
+  pinMode(M1O, OUTPUT);
+  pinMode(M2O, OUTPUT);
+  //Leonardo
+  Serial.begin(9600);
+  while(!Serial);
 }
 
 void loop()
 {
-   // Recieve data from Node and write it to a String
-   while (Serial.available() && toggleComplete == false) {
-    char inChar = (char)Serial.read();
-    if(inChar == 'E'){ // end character for toggle LED
-     toggleComplete = true;
-    }
-    if(inChar == 'P'){// end character for dim LED
-    //      toggle = true;
-    }
-    else{
-      inputChar += inChar; 
-    }
-  }
 
-  if (!Serial.available() && toggleComplete == true ) // Check to see if at least one character is available
-  {
-    // char ch = Serial.read();
-    if(isDigit(inputChar)) {
-      orderValue = (inputChar - '0');      // ASCII value converted to numeric value
-      switch ( orderValue ) // is this an ascii digit between 0 and 9?
-    	{
-    	case 2:
-    	  openDoor();
-    	  break;
-    	case 3:
-    	  closeDoor();
-    	  break;
-    	default:
-    	  Serial.println("B Not valid command " + orderValue + 'E');
-    	}
+  if ( Serial.available()) // Check to see if at least one character is available
+    {
+      char ch = Serial.read();
+      if(isDigit(ch)) {
+	blinkRate = (ch - '0');      // ASCII value converted to numeric value
+	switch ( blinkRate ) // is this an ascii digit between 0 and 9?
+	  {
+	  case 2:
+	    openDoor();
+	    break;
+	  case 3:
+	    closeDoor();
+	    break;
+	  default:
+	    Serial.println("Not valid command " + blinkRate);
+	  }
+      }
     }
-  }else{
-//    Serial.println("B"); // begin character 
-    Serial.print("B Kwan - no serial data available E");
-//    Serial.println("E"); // end character
-  }
-    delay(500);
-    /* digitalWrite(M1C, LOW); */
-    /* delay(100); */
-
-    /* //Serial.printlnln(millis()); */
-    // delay(1000); 
-    // Serial.printlnln("no serial data available");
+  delay(500);
 }
 
 void openDoor()
 {
-  digitalWrite(M1O, LOW);	  
-  digitalWrite(M2O, LOW);	  
-  digitalWrite(M1C, HIGH);	  
-  digitalWrite(M2C, HIGH);	  
-  // Serial.println("B"); // begin character 
-  Serial.println("B opening doors E");
-  // Serial.println("E"); // end character
+  digitalWrite(M1O, LOW);  
+  digitalWrite(M2O, LOW);  
+  digitalWrite(M1C, HIGH);  
+  digitalWrite(M2C, HIGH);  
+  Serial.println("Bopening doorsE");
 }
 
 void closeDoor()
 {
-  digitalWrite(M1O, HIGH);	  
-  digitalWrite(M2O, HIGH);	  
-  digitalWrite(M1C, LOW);	  
-  digitalWrite(M2C, LOW);	
-  // Serial.println("B"); // begin character 
-  Serial.println("B closing doors E");
-  // Serial.println("E"); // end character  
+  digitalWrite(M1O, HIGH);  
+  digitalWrite(M2O, HIGH);  
+  digitalWrite(M1C, LOW);  
+  digitalWrite(M2C, LOW);  
+  Serial.println("Bclosing doorsE");
 }
+

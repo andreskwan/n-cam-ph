@@ -64,13 +64,15 @@ http.listen(3000, function() {
 
 sp.on("data", function (data) {
     var receivedData = data.toString();
+//    console.log('data from serial port: ', receivedData);
     if (receivedData.indexOf('E') >= 0 && receivedData.indexOf('B') >= 0)
     {
       // save the data between 'B' and 'E'
        sendData = receivedData .substring(receivedData .indexOf('B') + 1, receivedData .indexOf('E'));
        receivedData = '';
+//       console.log('data from serial port: ', receivedData);
+       console.log('sendData: ', sendData);
     }
-    console.log('data from serial port: ', receivedData);
 });  
 
 //serialPort function
