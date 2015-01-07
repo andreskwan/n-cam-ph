@@ -41,31 +41,19 @@ void loop()
       orderValue = (inputChar - '0');      // ASCII value converted to numeric value
       switch ( orderValue ) // is this an ascii digit between 0 and 9?
     	{
-    	/* case 0: */
-    	/*   break; */
-    	/* case 1: */
-    	/*   break;	 */
     	case 2:
     	  openDoor();
-          Serial.println("B"); // begin character 
-    	  Serial.println("opening doors");
-          Serial.println("E"); // end character
     	  break;
     	case 3:
     	  closeDoor();
-          Serial.println("B"); // begin character 
-    	  Serial.println("closing doors");
-          Serial.println("E"); // end character
     	  break;
     	default:
-          Serial.println("B"); // begin character 
-    	  Serial.println("Not valid command " + orderValue);
-          Serial.println("E"); // end character
+    	  Serial.println("B Not valid command " + orderValue + 'E');
     	}
     }
   }else{
 //    Serial.println("B"); // begin character 
-    Serial.print("Kwan - no serial data available");
+    Serial.print("B Kwan - no serial data available E");
 //    Serial.println("E"); // end character
   }
     delay(500);
@@ -83,6 +71,9 @@ void openDoor()
   digitalWrite(M2O, LOW);	  
   digitalWrite(M1C, HIGH);	  
   digitalWrite(M2C, HIGH);	  
+  // Serial.println("B"); // begin character 
+  Serial.println("B opening doors E");
+  // Serial.println("E"); // end character
 }
 
 void closeDoor()
@@ -90,5 +81,8 @@ void closeDoor()
   digitalWrite(M1O, HIGH);	  
   digitalWrite(M2O, HIGH);	  
   digitalWrite(M1C, LOW);	  
-  digitalWrite(M2C, LOW);	  
+  digitalWrite(M2C, LOW);	
+  // Serial.println("B"); // begin character 
+  Serial.println("B closing doors E");
+  // Serial.println("E"); // end character  
 }
