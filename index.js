@@ -9,8 +9,8 @@ var sendData = "";
 var serialport = require("serialport");
 var SerialPort = serialport.SerialPort; // localize object constructor
 
-var sp = new SerialPort('/dev/ttyACM0', {
-//var sp = new SerialPort('/dev/tty.usbmodem14211', {
+// var sp = new SerialPort('/dev/ttyACM0', {
+var sp = new SerialPort('/dev/tty.usbmodem14211', {
 //sp.parsers.readline('\r')
 //serialport.parsers.raw
     baudrate: 9600,
@@ -64,18 +64,21 @@ http.listen(3000, function() {
 
 sp.on("data", function (data) {
     var receivedData = data.toString();
-    if (receivedData.indexOf('E') >= 0 && receivedData.indexOf('B') >= 0)
+    if (receivedData.indexOf('}') > 0 && receivedData.indexOf('{') >= 0)
     {
-      // save the data between 'B' and 'E'
-       sendData = receivedData .substring(receivedData .indexOf('B') + 1, receivedData .indexOf('E'));
+      // save the data between '{' and '}'
+       console.log('Solve this: ', receivedData);
+       sendData = receivedData.substring(receivedData.indexOf('{') + 1, receivedData.indexOf('}'));
+       console.log('sendData: ', sendData);
        receivedData = '';
     }
+    //all that comes without data format 
     console.log('data from serial port: ', receivedData);
 });  
 
 //serialPort function
 function startDoor() {
-  sp.write('2'+'E', function (err, results) {
+  sp.write('{'+'2'+'}', function (err, results) {
     if(err){
       console.log('Serial Port Write error: \n' + err);
       return;
@@ -84,8 +87,8 @@ function startDoor() {
   });   
 }
 
-function stopDoor(io) {
-  sp.write('3'+'P', function (err, results) {
+function stopDoor() {
+  sp.write('{'+'3'+'}', function (err, results) {
     if(err){
       console.log('Serial Port Write error: \n' + err);
       return;
